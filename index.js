@@ -1,13 +1,24 @@
 const inquirer = require('inquirer')
-const functions = require ('./lib/functions')
+const mysql = require('mysql')
+const functions = require('./lib/functions')
+const util = require('util');
 
+
+const db = mysql.createConnection ({
+    host:'localhost',
+    user : 'root',
+    password: 'password',
+    database: 'employeedb'
+})
+console.log("databse started and connected")
+const query = util.promisify(db.query).bind(db);
 const promptUser = () => {
     return inquirer.prompt([
         {
             type: 'list',
-            name: 'promt',
+            name: 'prompt',
             message: 'What would you like to do',
-            choices: ['View all employees', 'View employees by department', 'View employees by manager', 'Add employee', 'Remove employee', 'Update employee Role', 'Update employee Manager', 'view all roles', 'Exit app']
+            choices: ['View all departments','view all roles','View all employees','Add department','Add role','Add an employee','Update employee Role', 'Exit app']
         },
     ]);
 };
@@ -16,28 +27,26 @@ function runApp() {
     .then(function (answers){
             console.log(answers)
         if (answers.prompt === 'View all employees') {
-            functions.viewAllEmployees()
+            functions.viewAllEmployees(db, runApp)
+             runApp()
         }
-        else if (answers.prompt === 'View employees by department') {
-            functions.employeeByDepartment ()
+        else if (answers.prompt === 'View all departments') {
+            functions.viewAllDepartment (db, runApp)
         }
-        else if (answers.prompt === 'View employees by manager') {
-            functions.employeeByManager ()
+        else if  (answers.prompt === 'Add department') {
+            functions.addDepartment (db, runApp,answers)
+        }
+        else if  (answers.prompt === 'Add role') {
+            functions.addRole(query,runApp,answers)
         }
         else if  (answers.prompt === 'Add employee') {
-            functions.addEmployee ()
-        }
-        else if  (answers.prompt === 'Remove employee') {
-            functions.removeEmployee ()
+            functions.addEmployee (db, runApp,answers)
         }
         else if  (answers.prompt === 'Update employee Role') {
-            functions.updateEmployeeRole()
-        }
-        else if  (answers.prompt === 'Update employee Manager') {
-            functions.updateEmployeeManager()
+            functions.updateEmployeeRole(db, runApp,answers)
         }
         else if (answers.prompt === 'view all roles') {
-            functions.viewAllRoles()
+            functions.viewAllRoles(db, runApp)
         }
         else if (answers.prompt === 'exit app') {
             console.log("bye")
@@ -45,5 +54,4 @@ function runApp() {
     })
 }
 
-runApp ();
-module.exports = runApp();
+ runApp()
