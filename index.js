@@ -27,26 +27,25 @@ function runApp() {
     .then(function (answers){
             console.log(answers)
         if (answers.prompt === 'View all employees') {
-            functions.viewAllEmployees(db, runApp)
-             runApp()
+            functions.viewAllEmployees(db,runApp)
         }
         else if (answers.prompt === 'View all departments') {
-            functions.viewAllDepartment (db, runApp)
+            functions.viewAllDepartment (db,runApp)
         }
         else if  (answers.prompt === 'Add department') {
-            functions.addDepartment (db, runApp,answers)
+            functions.addDepartment (db,runApp)
         }
         else if  (answers.prompt === 'Add role') {
-            functions.addRole(query,runApp,answers)
+            functions.addRole(query,runApp)
         }
-        else if  (answers.prompt === 'Add employee') {
-            functions.addEmployee (db, runApp,answers)
+        else if  (answers.prompt === 'Add an employee') {
+            functions.addEmployee (query,runApp)
         }
         else if  (answers.prompt === 'Update employee Role') {
-            functions.updateEmployeeRole(db, runApp,answers)
+            functions.updateEmployeeRole(db,runApp)
         }
         else if (answers.prompt === 'view all roles') {
-            functions.viewAllRoles(db, runApp)
+            functions.viewAllRoles(db,runApp)
         }
         else if (answers.prompt === 'exit app') {
             console.log("bye")
