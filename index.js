@@ -42,7 +42,7 @@ function runApp() {
             functions.addEmployee (query,runApp)
         }
         else if  (answers.prompt === 'Update employee Role') {
-            functions.updateEmployeeRole(db,runApp)
+            functions.updateEmployeeData(query,runApp)
         }
         else if (answers.prompt === 'view all roles') {
             functions.viewAllRoles(db,runApp)
